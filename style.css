@@ -11,7 +11,7 @@ html {
 
 .empty,
 .clicked {
-    border-radius: 5px;
+    border-radius: 1.5vmin;
     width: 33%;
     height: 33%;
     background-color: rgba(255, 255, 255, 0.78);
