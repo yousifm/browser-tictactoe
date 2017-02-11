@@ -1,5 +1,6 @@
 var emptyCells = ['00', '01', '02', '10', '11', '12', '20', '21', '22'],
-    endState = false;
+    endState = false,
+    board = document.getElementsByClassName('board')[0];
 
 Array.prototype.allValuesSame = function () {
     "use strict";
@@ -15,14 +16,13 @@ Array.prototype.allValuesSame = function () {
 
 function drawBoard() {
     "use strict";
-    var table = document.getElementsByClassName('board')[0],
-        row,
+    var row,
         i,
         j,
         cell;
 
     for (i = 0; i < 3; i += 1) {
-        row = table.insertRow(i);
+        row = board.insertRow(i);
         for (j = 0; j < 3; j += 1) {
             cell = row.insertCell(j);
             cell.setAttribute('onclick', 'playerMove(this)');
@@ -34,8 +34,8 @@ function drawBoard() {
 function end(winner) {
     "use strict";
     var endText,
-        board,
         endArea;
+
     if (endState) {
         return;
     }
@@ -46,7 +46,6 @@ function end(winner) {
         endText = winner + ' wins!';
     }
 
-    board = document.getElementsByClassName('board')[0];
     board.setAttribute('style', 'opacity: 0.1;');
     endState = true;
     endArea = document.getElementsByClassName('endgameText')[0];
@@ -57,8 +56,7 @@ function end(winner) {
 
 function clearBoard() {
     "use strict";
-    var board = document.getElementsByClassName('board')[0],
-        endArea = document.getElementsByClassName('endgameText')[0];
+    var endArea = document.getElementsByClassName('endgameText')[0];
 
     endArea.innerHTML = "";
     board.innerHTML = "";
@@ -87,8 +85,7 @@ function checkTie() {
 
 function checkWin() {
     "use strict";
-    var table = document.getElementsByClassName('board')[0],
-        rows = table.rows,
+    var rows = board.rows,
         rowNumber,
         rowContents,
         cells,
@@ -132,10 +129,8 @@ function computerMove() {
     if (endState) {
         return;
     }
-
     if (emptyCells.length) {
-        var board = document.getElementsByClassName('board')[0],
-            randomIndex = Math.floor(Math.random() * emptyCells.length),
+        var randomIndex = Math.floor(Math.random() * emptyCells.length),
             cellString = emptyCells[randomIndex],
 
             rowNumber = parseInt(cellString[0], 10),
@@ -178,3 +173,4 @@ function playerMove(elem) {
 }
 
 drawBoard();
+
