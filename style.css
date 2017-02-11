@@ -53,7 +53,6 @@ html {
     left: 50%;
     z-index: 10;
     transform: translate(-50%, -50%);
-    font-size: 30%;
     width: 50%;
 }
 
@@ -62,7 +61,7 @@ a {
     display: block;
     text-decoration: none;
     border: 1px solid grey;
-    margin-top: 2vmin;
+    margin-top: 7vmin;
     border-radius: 5px;
     padding-top: 2vmin;
     padding-bottom: 2vmin;
@@ -71,7 +70,7 @@ a {
     line-height: 110%;
     text-align: center;
     width: 100%;
-    font-size: 125%;
+    font-size: 37.5%;
     font-weight: 400;
 }
 
@@ -86,7 +85,7 @@ h2 {
     width: 100%;
     position: absolute;
     top: -5vmin;
-    font-size: 180%;
+    font-size: 90%;
     font-weight: 300;
     text-align: center;
 }
