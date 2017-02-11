@@ -30,7 +30,7 @@ html {
 
 .container {
     position: relative;
-    margin-top: 100px;
+    margin-top: 20vmin;
     margin-left: 50%;
     font-size: 10vmin;
     height: 50vmin;
@@ -62,7 +62,7 @@ a {
     display: block;
     text-decoration: none;
     border: 1px solid grey;
-    padding: auto auto;
+    margin-top: 2vmin;
     border-radius: 200vw;
     color: rgba(255, 255, 255, 0.54);
     height: 25%;
@@ -83,7 +83,7 @@ h2 {
     color: rgba(255, 254, 254, 0.71);
     width: 100%;
     position: absolute;
-    top: -30px;
+    top: -5vmin;
     font-size: 180%;
     font-weight: 300;
     text-align: center;
