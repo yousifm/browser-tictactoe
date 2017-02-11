@@ -52,7 +52,7 @@ function end(winner) {
     endArea = document.getElementsByClassName('endgameText')[0];
 
     endArea.innerHTML += "<h2>" + endText + "</h2>";
-    endArea.innerHTML += '<a href ="#" class="replayButton" onclick="clearBoard()">Play Again?</a>';
+    endArea.innerHTML += '<a href ="#" class="replayButton" onclick="return clearBoard()">Play Again?</a>';
 }
 
 function clearBoard() {
