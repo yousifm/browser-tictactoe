@@ -63,7 +63,9 @@ a {
     text-decoration: none;
     border: 1px solid grey;
     margin-top: 2vmin;
-    border-radius: 200vw;
+    border-radius: 2px;
+    padding-top: 0.5vmin;
+    padding-bottom: 0.5vmin;
     color: rgba(255, 255, 255, 0.54);
     height: 25%;
     line-height: 110%;
