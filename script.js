@@ -129,6 +129,10 @@ function checkWin() {
 
 function computerMove() {
     "use strict";
+    if (endState) {
+        return;
+    }
+
     if (emptyCells.length) {
         var board = document.getElementsByClassName('board')[0],
             randomIndex = Math.floor(Math.random() * emptyCells.length),
