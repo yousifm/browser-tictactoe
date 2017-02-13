@@ -1,4 +1,4 @@
-var emptyCells = ['00', '01', '02', '10', '11', '12', '20', '21', '22'],
+var emptyCells = ['0', '1', '2', '3', '4', '5', '6', '7', '8'],
     endState = false,
     board = document.getElementsByClassName('board')[0];
 
@@ -129,40 +129,26 @@ function computerMove() {
     "use strict";
     if (emptyCells.length && !endState) {
         var randomIndex = Math.floor(Math.random() * emptyCells.length),
-            cellString = emptyCells[randomIndex],
-
-            rowNumber = parseInt(cellString[0], 10),
-            cellNumber = parseInt(cellString[1], 10),
-
-            row = board.rows[rowNumber],
-            cell = row.cells[cellNumber];
+            cell = document.getElementById(emptyCells[randomIndex]);
 
         emptyCells.splice(randomIndex, 1);
 
         cell.innerHTML = 'O';
-        cell.setAttribute('style', 'color:#3e3e3e');
+        cell.setAttribute('style', 'color: #3e3e3e;');
         cell.removeAttribute('onclick');
         cell.setAttribute('class', 'clicked');
     }
 }
 
-function getId(elem) {
-    "use strict";
-    var row = elem.parentNode.rowIndex,
-        cell = elem.cellIndex;
-
-    return row.toString() + cell;
-}
-
 function playerMove(elem) {
     "use strict";
     if (!endState) {
-        var id = getId(elem);
+        var id = elem.id;
         emptyCells.splice(emptyCells.indexOf(id), 1);
 
         elem.innerHTML = 'X';
         elem.setAttribute('class', 'clicked');
-        elem.setAttribute('style', 'color:#3e3e3e');
+        elem.setAttribute('style', 'color: #3e3e3e;');
         elem.removeAttribute('onclick');
         checkWin();
         computerMove();
