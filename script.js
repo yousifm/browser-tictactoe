@@ -121,6 +121,7 @@ function checkWin() {
 }
 
 function getBoardCells() {
+    "use strict";
     var iterator,
         cells = [];
     for (iterator = 0; iterator < 9; iterator += 3) {
@@ -132,7 +133,7 @@ function getBoardCells() {
 function computerMove() {
     "use strict";
     if (emptyCells.length && !endState) {
-        var minimaxIndex = minimaxBestMove(getBoardCells()),
+        var minimaxIndex = window.minimaxBestMove(getBoardCells()),
             cell = document.getElementById(minimaxIndex);
 
         emptyCells.splice(emptyCells.indexOf(minimaxIndex), 1);
