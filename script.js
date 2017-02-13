@@ -27,6 +27,7 @@ function drawBoard() {
             cell = row.insertCell(j);
             cell.setAttribute('onclick', 'playerMove(this)');
             cell.setAttribute('class', 'empty');
+            cell.id = (i*3 + j).toString();
         }
     }
 }
@@ -126,18 +127,15 @@ function checkWin() {
 
 function computerMove() {
     "use strict";
-    if (endState) {
-        return;
-    }
-    if (emptyCells.length) {
+    if (emptyCells.length && !endState) {
         var randomIndex = Math.floor(Math.random() * emptyCells.length),
             cellString = emptyCells[randomIndex],
 
             rowNumber = parseInt(cellString[0], 10),
             cellNumber = parseInt(cellString[1], 10),
 
-            row = board.getElementsByTagName('tr')[rowNumber],
-            cell = row.getElementsByTagName('td')[cellNumber];
+            row = board.rows[rowNumber],
+            cell = row.cells[cellNumber];
 
         emptyCells.splice(randomIndex, 1);
 
@@ -152,6 +150,7 @@ function getId(elem) {
     "use strict";
     var row = elem.parentNode.rowIndex,
         cell = elem.cellIndex;
+
     return row.toString() + cell;
 }
 
@@ -171,6 +170,5 @@ function playerMove(elem) {
         checkTie();
     }
 }
-
 drawBoard();
 
