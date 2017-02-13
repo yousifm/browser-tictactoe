@@ -119,5 +119,5 @@ function minimaxBestMove(board) {
             bestMoves.push(emptyCells[iterator]);
         }
     }
-    return bestMoves[Math.floor(Math.random() * bestMoves.length)]
+    return bestMoves[Math.floor(Math.random() * bestMoves.length)];
 }
