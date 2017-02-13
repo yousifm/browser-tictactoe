@@ -104,11 +104,20 @@ function minimaxValue(board, move, currentPlayer) {
 
 function minimaxBestMove(board) {
 	var emptyCells = getEmptyCells(board),
-		iterator,
-		moveValues = [];
+		moveValues = [],
+        bestMoves = [],
+        maximum,
+		iterator;
 
 	for (iterator = 0; iterator < emptyCells.length; iterator += 1) {
 		moveValues.push(minimaxValue(board, emptyCells[iterator], 'O'));
 	}
-	return emptyCells[moveValues.indexOf(Math.max.apply(null, moveValues))];
+
+    maximum = Math.max.apply(null, moveValues);
+    for (iterator = 0; iterator < emptyCells.length; iterator += 1) {
+        if (moveValues[iterator] === maximum) {
+            bestMoves.push(emptyCells[iterator]);
+        }
+    }
+    return bestMoves[Math.floor(Math.random() * bestMoves.length)]
 }
