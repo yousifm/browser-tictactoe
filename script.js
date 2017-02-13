@@ -113,20 +113,29 @@ function checkWin() {
     if (checkSame(diagonal)) {
         return diagonal[0];
     }
-    diagonal = getCells(0, 4, 8);
+    diagonal = getCells(2, 4, 6);
     if (checkSame(diagonal)) {
         return diagonal[0];
     }
     return null;
 }
 
+function getBoardCells() {
+    var iterator,
+        cells = [];
+    for (iterator = 0; iterator < 9; iterator += 3) {
+        cells = cells.concat(getCells(iterator, iterator + 1, iterator + 2));
+    }
+    return cells;
+}
+
 function computerMove() {
     "use strict";
     if (emptyCells.length && !endState) {
-        var randomIndex = Math.floor(Math.random() * emptyCells.length),
-            cell = document.getElementById(emptyCells[randomIndex]);
+        var minimaxIndex = minimaxBestMove(getBoardCells()),
+            cell = document.getElementById(minimaxIndex);
 
-        emptyCells.splice(randomIndex, 1);
+        emptyCells.splice(emptyCells.indexOf(minimaxIndex), 1);
 
         cell.innerHTML = 'O';
         cell.removeAttribute('onclick');
