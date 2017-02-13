@@ -27,7 +27,7 @@ function drawBoard() {
             cell = row.insertCell(j);
             cell.setAttribute('onclick', 'playerMove(this)');
             cell.setAttribute('class', 'empty');
-            cell.id = (i*3 + j).toString();
+            cell.id = (i * 3 + j).toString();
         }
     }
 }
@@ -80,6 +80,7 @@ function checkTie() {
 }
 
 function getCells(id1, id2, id3) {
+    "use strict";
     return [document.getElementById(id1).innerHTML,
             document.getElementById(id2).innerHTML,
             document.getElementById(id3).innerHTML];
@@ -98,9 +99,9 @@ function checkWin() {
 
     //check rows and columns
     for (number = 0; number < 3; number += 1) {
-        row = getCells(number*3, number*3 + 1, number*3 + 2);
+        row = getCells(number * 3, number * 3 + 1, number * 3 + 2);
         column = getCells(number, number + 3, number + 6);
-        if (checkSame(row) ) {
+        if (checkSame(row)) {
             return row[0];
         } else if (checkSame(column)) {
             return column[0];
