@@ -134,7 +134,6 @@ function computerMove() {
         emptyCells.splice(randomIndex, 1);
 
         cell.innerHTML = 'O';
-        cell.setAttribute('style', 'color: #3e3e3e;');
         cell.removeAttribute('onclick');
         cell.setAttribute('class', 'clicked');
     }
@@ -148,7 +147,6 @@ function playerMove(elem) {
 
         elem.innerHTML = 'X';
         elem.setAttribute('class', 'clicked');
-        elem.setAttribute('style', 'color: #3e3e3e;');
         elem.removeAttribute('onclick');
         checkWin();
         computerMove();

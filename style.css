@@ -27,6 +27,10 @@ html {
     background-color: rgba(19, 229, 100, 0.88);
 }
 
+.clicked {
+    color: #3e3e3e;
+}
+
 .container {
     position: relative;
     margin-top: 12.5vmin;
