@@ -32,19 +32,12 @@ function drawBoard() {
     }
 }
 
-function end(winner) {
+function end(endText) {
     "use strict";
-    var endText,
-        endArea;
+    var endArea;
 
     if (endState) {
         return;
-    }
-
-    if (winner === 'Tie') {
-        endText = 'Tie';
-    } else {
-        endText = winner + ' wins!';
     }
 
     board.setAttribute('style', 'opacity: 0.1;');
@@ -62,7 +55,7 @@ function clearBoard() {
     endArea.innerHTML = "";
     board.innerHTML = "";
     board.setAttribute('style', 'opacity: 1;');
-    emptyCells = ['00', '01', '02', '10', '11', '12', '20', '21', '22'];
+    emptyCells = ['0', '1', '2', '3', '4', '5', '6', '7', '8'];
     endState = false;
     drawBoard();
     return false;
@@ -72,57 +65,58 @@ function checkSame(array) {
     "use strict";
     if (!endState) {
         if (array[0].length > 0 && array.allValuesSame()) {
-            end(array[0]);
+            return true;
         }
     }
+    return false;
 }
 
 function checkTie() {
     "use strict";
     if (!emptyCells.length) {
-        end('Tie');
+        return true;
     }
+    return false;
+}
+
+function getCells(id1, id2, id3) {
+    return [document.getElementById(id1).innerHTML,
+            document.getElementById(id2).innerHTML,
+            document.getElementById(id3).innerHTML];
 }
 
 function checkWin() {
     "use strict";
-    var rows = board.rows,
-        rowNumber,
-        rowContents,
-        cells,
-        cellNumber,
-        columnContents,
-        diagonalContents;
+    var number,
+        column,
+        row,
+        diagonal;
 
     if (endState) {
         return;
     }
 
-    //check rows
-    for (rowNumber = 0; rowNumber < 3; rowNumber += 1) {
-        cells = rows[rowNumber].cells;
-        rowContents = [cells[0].innerHTML, cells[1].innerHTML, cells[2].innerHTML];
-        checkSame(rowContents);
-    }
-
-        //check columns
-    for (cellNumber = 0; cellNumber < 3; cellNumber += 1) {
-        columnContents = [rows[0].cells[cellNumber].innerHTML,
-                              rows[1].cells[cellNumber].innerHTML,
-                              rows[2].cells[cellNumber].innerHTML];
-
-        checkSame(columnContents);
+    //check rows and columns
+    for (number = 0; number < 3; number += 1) {
+        row = getCells(number*3, number*3 + 1, number*3 + 2);
+        column = getCells(number, number + 3, number + 6);
+        if (checkSame(row) ) {
+            return row[0];
+        } else if (checkSame(column)) {
+            return column[0];
+        }
     }
 
     //check diagonals
-    diagonalContents = [rows[0].cells[0].innerHTML,
-                            rows[1].cells[1].innerHTML,
-                            rows[2].cells[2].innerHTML];
-    checkSame(diagonalContents);
-    diagonalContents = [rows[0].cells[2].innerHTML,
-                       rows[1].cells[1].innerHTML,
-                       rows[2].cells[0].innerHTML];
-    checkSame(diagonalContents);
+    diagonal = getCells(0, 4, 8);
+    if (checkSame(diagonal)) {
+        return diagonal[0];
+    }
+    diagonal = getCells(0, 4, 8);
+    if (checkSame(diagonal)) {
+        return diagonal[0];
+    }
+    return null;
 }
 
 function computerMove() {
@@ -139,6 +133,18 @@ function computerMove() {
     }
 }
 
+function turnPasses() {
+    "use strict";
+    var winner = checkWin(),
+        tie = checkTie();
+
+    if (winner) {
+        end(winner + ' wins!');
+    } else if (tie) {
+        end('Tie');
+    }
+}
+
 function playerMove(elem) {
     "use strict";
     if (!endState) {
@@ -148,10 +154,9 @@ function playerMove(elem) {
         elem.innerHTML = 'X';
         elem.setAttribute('class', 'clicked');
         elem.removeAttribute('onclick');
-        checkWin();
+        turnPasses();
         computerMove();
-        checkWin();
-        checkTie();
+        turnPasses();
     }
 }
 drawBoard();
