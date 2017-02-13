@@ -1,10 +1,12 @@
 function makeMove(board, move, currentPlayer) {
+    "use strict";
 	var boardCopy = board.slice();
 	boardCopy[move] = currentPlayer;
 	return boardCopy;
 }
 
 function getEmptyCells(board) {
+    "use strict";
 	var iterator,
 		emptyCells = [];
 	for (iterator = 0; iterator < board.length; iterator += 1) {
@@ -16,6 +18,7 @@ function getEmptyCells(board) {
 }
 
 function getWinner(cell1, cell2, cell3) {
+    "use strict";
 	if (cell1 === cell2 && cell2 === cell3) {
 		return cell1;
 	}
@@ -23,6 +26,7 @@ function getWinner(cell1, cell2, cell3) {
 }
 
 function checkState(board) {
+    "use strict";
 	var iterator,
 		winnerRow,
 		winnerColumn,
@@ -33,8 +37,8 @@ function checkState(board) {
 	for (iterator = 0; iterator < 3; iterator += 1) {
 		//check rows
 		winnerRow = getWinner(board[iterator * 3],
-						   	  board[iterator * 3 + 1],
-				           	  board[iterator * 3 + 2]);
+                              board[iterator * 3 + 1],
+                              board[iterator * 3 + 2]);
 
 		//check column
 		winnerColumn = getWinner(board[iterator],
@@ -64,6 +68,7 @@ function checkState(board) {
 }
 
 function getOpponent(player) {
+    "use strict";
 	if (player === 'X') {
 		return 'O';
 	} else if (player === 'O') {
@@ -72,6 +77,7 @@ function getOpponent(player) {
 }
 
 function minimaxValue(board, move, currentPlayer) {
+    "use strict";
 	var newBoard = makeMove(board, move, currentPlayer),
 		state = checkState(newBoard),
 		emptyCells = getEmptyCells(newBoard),
@@ -84,7 +90,7 @@ function minimaxValue(board, move, currentPlayer) {
 		return 1;
 	case 'loss':
 		return -1;
-	case 'tie' :
+	case 'tie':
 		return 0;
 	}
 
@@ -95,20 +101,29 @@ function minimaxValue(board, move, currentPlayer) {
 	//Minimizer
 	if (opponent === 'X') {
 		return Math.min.apply(null, moveValues);
-	}
-	//Maximizer
-	else if (opponent === 'O') {
+    //Maximizer
+	} else if (opponent === 'O') {
 		return Math.max.apply(null, moveValues);
 	}
 }
 
 function minimaxBestMove(board) {
+    "use strict";
 	var emptyCells = getEmptyCells(board),
-		iterator,
-		moveValues = [];
+		moveValues = [],
+        bestMoves = [],
+        maximum,
+		iterator;
 
 	for (iterator = 0; iterator < emptyCells.length; iterator += 1) {
 		moveValues.push(minimaxValue(board, emptyCells[iterator], 'O'));
 	}
-	return emptyCells[moveValues.indexOf(Math.max.apply(null, moveValues))];
+
+    maximum = Math.max.apply(null, moveValues);
+    for (iterator = 0; iterator < emptyCells.length; iterator += 1) {
+        if (moveValues[iterator] === maximum) {
+            bestMoves.push(emptyCells[iterator]);
+        }
+    }
+    return bestMoves[Math.floor(Math.random() * bestMoves.length)];
 }
