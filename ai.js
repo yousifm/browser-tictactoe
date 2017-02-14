@@ -92,9 +92,9 @@ function minimaxValue(board, move, currentPlayer, maxdepth, depth) {
 
 	switch (state) {
 	case 'win':
-		return 1;
+		return 1 * (10 - depth);
 	case 'loss':
-		return -1;
+		return -1 * (10 - depth);
 	case 'tie':
 		return 0;
 	}
@@ -117,7 +117,7 @@ function minimaxBestMove(board, maxDepth) {
 	var emptyCells = getEmptyCells(board),
 		moveValues = [],
         bestMoves = [],
-        maxDepth = maxDepth || Infinity,
+        maxDepth = maxDepth || 9,
         maximum,
 		iterator;
 

@@ -155,7 +155,7 @@ function computerMove() {
 }
 
 function normal(boardCells) {
-    return minimaxBestMove(boardCells, 4);
+    return minimaxBestMove(boardCells, 3);
 }
 
 function randomMove(boardCells) {
