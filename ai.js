@@ -86,7 +86,7 @@ function minimaxValue(board, move, currentPlayer, maxdepth, depth) {
         depth = depth || 0,
 		iterator;
 
-    if (depth > maxdepth) {
+    if (depth >= maxdepth) {
         return 0;
     }
 
