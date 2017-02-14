@@ -1,6 +1,7 @@
 var emptyCells = ['0', '1', '2', '3', '4', '5', '6', '7', '8'],
     endState = false,
-    board = document.getElementsByClassName('board')[0];
+    board = document.getElementsByClassName('board')[0],
+    computerMoveFunction = normal;
 
 Array.prototype.allValuesSame = function () {
     "use strict";
@@ -13,6 +14,15 @@ Array.prototype.allValuesSame = function () {
 
     return true;
 };
+
+Array.prototype.count = function (value) {
+    var count = 0;
+    for(var i = 0; i < this.length; ++i){
+        if(this[i] == value)
+            count++;
+    }
+    return count;
+}
 
 function drawBoard() {
     "use strict";
@@ -121,6 +131,7 @@ function checkWin() {
 }
 
 function getBoardCells() {
+    "use strict";
     var iterator,
         cells = [];
     for (iterator = 0; iterator < 9; iterator += 3) {
@@ -132,15 +143,61 @@ function getBoardCells() {
 function computerMove() {
     "use strict";
     if (emptyCells.length && !endState) {
-        var minimaxIndex = minimaxBestMove(getBoardCells()),
-            cell = document.getElementById(minimaxIndex);
+        var moveIndex = computerMoveFunction(getBoardCells()),
+            cell = document.getElementById(moveIndex);
 
-        emptyCells.splice(emptyCells.indexOf(minimaxIndex), 1);
+        emptyCells.splice(emptyCells.indexOf(moveIndex), 1);
 
         cell.innerHTML = 'O';
         cell.removeAttribute('onclick');
         cell.setAttribute('class', 'clicked');
     }
+}
+
+function normal(boardCells) {
+    if (almostEnd(boardCells)) {
+        return window.minimaxBestMove(boardCells);
+    } else {
+        return randomMove();
+    }
+}
+
+function randomMove(boardCells) {
+    return emptyCells[Math.floor(Math.random() * emptyCells.length)];
+}
+
+
+function almostWin(arr) {
+    if ((arr.count('X') === 2 || arr.count('O') === 2) && ((arr.count(' ') === 1) || (arr.count('') === 1))) {
+        return true;
+    }
+    return false;
+}
+
+function almostEnd(boardCells) {
+    for (var i = 0; i < 3; i += 1) {
+        var row = [boardCells[i*3],
+                  boardCells[i*3 + 1],
+                  boardCells[i*3 + 2]];
+
+        var col = [boardCells[i],
+                  boardCells[i+3],
+                  boardCells[i+6]];
+        if (almostWin(row) || almostWin(col)) {
+            return true;
+        }
+    }
+    var diag1 = [boardCells[0],
+                 boardCells[4],
+                 boardCells[8]];
+
+    var diag2 = [boardCells[2],
+                 boardCells[4],
+                 boardCells[6]];
+    if (almostWin(diag1) || almostWin(diag2)) {
+        return true;
+    }
+    return false;
 }
 
 function turnPasses() {
@@ -169,5 +226,24 @@ function playerMove(elem) {
         turnPasses();
     }
 }
+
+function toggleDifficulty(button) {
+    "use strict";
+    document.getElementsByClassName('difficultyButtonToggled')[0].className = 'difficultyButton';
+    button.className = 'difficultyButtonToggled';
+
+    switch (button.innerHTML) {
+    case 'Easy':
+        computerMoveFunction = randomMove;
+        break;
+    case 'Normal':
+        computerMoveFunction = normal;
+        break;
+    case 'Impossible':
+        computerMoveFunction = window.minimaxBestMove;
+        break;
+    }
+}
+
 drawBoard();
 
