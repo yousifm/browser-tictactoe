@@ -76,14 +76,19 @@ function getOpponent(player) {
 	}
 }
 
-function minimaxValue(board, move, currentPlayer) {
+function minimaxValue(board, move, currentPlayer, maxdepth, depth) {
     "use strict";
 	var newBoard = makeMove(board, move, currentPlayer),
 		state = checkState(newBoard),
 		emptyCells = getEmptyCells(newBoard),
 		opponent = getOpponent(currentPlayer),
 		moveValues = [],
+        depth = depth || 0,
 		iterator;
+
+    if (depth > maxdepth) {
+        return 0;
+    }
 
 	switch (state) {
 	case 'win':
@@ -96,7 +101,7 @@ function minimaxValue(board, move, currentPlayer) {
 
 
 	for (iterator = 0; iterator < emptyCells.length; iterator += 1) {
-		moveValues.push(minimaxValue(newBoard, emptyCells[iterator], opponent));
+		moveValues.push(minimaxValue(newBoard, emptyCells[iterator], opponent, maxdepth, depth + 1));
 	}
 	//Minimizer
 	if (opponent === 'X') {
@@ -107,16 +112,17 @@ function minimaxValue(board, move, currentPlayer) {
 	}
 }
 
-function minimaxBestMove(board) {
+function minimaxBestMove(board, maxDepth) {
     "use strict";
 	var emptyCells = getEmptyCells(board),
 		moveValues = [],
         bestMoves = [],
+        maxDepth = maxDepth || Infinity,
         maximum,
 		iterator;
 
 	for (iterator = 0; iterator < emptyCells.length; iterator += 1) {
-		moveValues.push(minimaxValue(board, emptyCells[iterator], 'O'));
+		moveValues.push(minimaxValue(board, emptyCells[iterator], 'O', maxDepth));
 	}
 
     maximum = Math.max.apply(null, moveValues);
