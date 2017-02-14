@@ -155,49 +155,11 @@ function computerMove() {
 }
 
 function normal(boardCells) {
-    if (almostEnd(boardCells)) {
-        return window.minimaxBestMove(boardCells);
-    } else {
-        return randomMove();
-    }
+    return minimaxBestMove(boardCells, 2);
 }
 
 function randomMove(boardCells) {
     return emptyCells[Math.floor(Math.random() * emptyCells.length)];
-}
-
-
-function almostWin(arr) {
-    if ((arr.count('X') === 2 || arr.count('O') === 2) && ((arr.count(' ') === 1) || (arr.count('') === 1))) {
-        return true;
-    }
-    return false;
-}
-
-function almostEnd(boardCells) {
-    for (var i = 0; i < 3; i += 1) {
-        var row = [boardCells[i*3],
-                  boardCells[i*3 + 1],
-                  boardCells[i*3 + 2]];
-
-        var col = [boardCells[i],
-                  boardCells[i+3],
-                  boardCells[i+6]];
-        if (almostWin(row) || almostWin(col)) {
-            return true;
-        }
-    }
-    var diag1 = [boardCells[0],
-                 boardCells[4],
-                 boardCells[8]];
-
-    var diag2 = [boardCells[2],
-                 boardCells[4],
-                 boardCells[6]];
-    if (almostWin(diag1) || almostWin(diag2)) {
-        return true;
-    }
-    return false;
 }
 
 function turnPasses() {
