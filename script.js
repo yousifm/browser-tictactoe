@@ -127,7 +127,7 @@ function clearBoard() {
 }
 
 /**
- *Checks whether all the array elements are the same
+ *Checks whether all the array elements are the same and are not empty strings
  */
 function checkSame(array) {
     "use strict";
@@ -152,7 +152,7 @@ function checkTie() {
 
 /**
  *Checks if any of the players has won
- *and returns the winner otherwise returns null
+ *and returns the winner, otherwise returns null
  */
 function checkWin() {
     "use strict";
