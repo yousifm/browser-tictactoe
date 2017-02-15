@@ -116,6 +116,8 @@ function minimaxValue(board, move, currentPlayer, maxdepth, depth) {
      *So that if computer is going to win no matter what move it makes it tries
      *to end the game earlier and if its going to lose anyways it tries to
      *prolong the game
+     *Note: 10 is one more than the maximum depth the function can reach
+     *(Only 9 moves can be made)
      */
 	switch (state) {
 	case 'win':
