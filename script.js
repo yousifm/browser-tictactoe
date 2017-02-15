@@ -1,5 +1,4 @@
-var emptyCells = ['0', '1', '2', '3', '4', '5', '6', '7', '8'],
-    endState = false,
+var endState = false,
     board = document.getElementsByClassName('board')[0],
     computerMoveFunction = normal;
 
@@ -23,12 +22,53 @@ Array.prototype.allValuesSame = function () {
  *Returns the number of occurences of a certain value in the array
  */
 Array.prototype.count = function (value) {
-    var count = 0;
-    for(var i = 0; i < this.length; ++i){
-        if(this[i] == value)
-            count++;
+    "use strict";
+    var count = 0,
+        i;
+    for (i = 0; i < this.length; i += 1) {
+        if (this[i] === value) {
+            count += 1;
+        }
     }
     return count;
+};
+
+/**
+ *Returns the indices of the empty elements of an array
+ */
+function getEmptyCells(board) {
+    "use strict";
+	var iterator,
+		emptyCells = [];
+	for (iterator = 0; iterator < board.length; iterator += 1) {
+		if (board[iterator] === '' || board[iterator] === ' ') {
+			emptyCells.push(iterator);
+		}
+	}
+	return emptyCells;
+}
+
+/**
+ *Returns the text content of the elements with the passed id's as an array
+ */
+function getCells(id1, id2, id3) {
+    "use strict";
+    return [document.getElementById(id1).innerHTML,
+            document.getElementById(id2).innerHTML,
+            document.getElementById(id3).innerHTML];
+}
+
+/**
+ *Returns the text content of the board table as an array
+ */
+function getBoardCells() {
+    "use strict";
+    var iterator,
+        cells = [];
+    for (iterator = 0; iterator < 9; iterator += 3) {
+        cells = cells.concat(getCells(iterator, iterator + 1, iterator + 2));
+    }
+    return cells;
 }
 
 /**
@@ -81,7 +121,6 @@ function clearBoard() {
     endArea.innerHTML = "";
     board.innerHTML = "";
     board.setAttribute('style', 'opacity: 1;');
-    emptyCells = ['0', '1', '2', '3', '4', '5', '6', '7', '8'];
     endState = false;
     drawBoard();
     return false;
@@ -105,20 +144,10 @@ function checkSame(array) {
  */
 function checkTie() {
     "use strict";
-    if (!emptyCells.length) {
+    if (!getEmptyCells(getBoardCells(board)).length) {
         return true;
     }
     return false;
-}
-
-/**
- *Returns the text content of the elements with the passed id's as an array
- */
-function getCells(id1, id2, id3) {
-    "use strict";
-    return [document.getElementById(id1).innerHTML,
-            document.getElementById(id2).innerHTML,
-            document.getElementById(id3).innerHTML];
 }
 
 /**
@@ -160,30 +189,15 @@ function checkWin() {
 }
 
 /**
- *Returns the text content of the board table as an array
- */
-function getBoardCells() {
-    "use strict";
-    var iterator,
-        cells = [];
-    for (iterator = 0; iterator < 9; iterator += 3) {
-        cells = cells.concat(getCells(iterator, iterator + 1, iterator + 2));
-    }
-    return cells;
-}
-
-/**
  *Handles computer choice using the current difficulty function,
  *adds an O and changes the cell's class
  */
 function computerMove() {
     "use strict";
-    if (emptyCells.length && !endState) {
-        var moveIndex = computerMoveFunction(getBoardCells()),
-            cell = document.getElementById(moveIndex);
-
-        emptyCells.splice(emptyCells.indexOf(moveIndex), 1);
-
+    var emptyCells = getEmptyCells(getBoardCells(board)),
+        moveIndex = computerMoveFunction(getBoardCells()),
+        cell = document.getElementById(moveIndex);
+    if (emptyCells && !endState) {
         cell.innerHTML = 'O';
         cell.removeAttribute('onclick');
         cell.setAttribute('class', 'clicked');
@@ -194,13 +208,16 @@ function computerMove() {
  *Normal difficulty, uses minimax with a max depth of 3
  */
 function normal(boardCells) {
-    return minimaxBestMove(boardCells, 3);
+    "use strict";
+    return window.minimaxBestMove(boardCells, 3);
 }
 
 /**
  *Returns a random cells's id
  */
 function randomMove(boardCells) {
+    "use strict";
+    var emptyCells = getEmptyCells(getBoardCells());
     return emptyCells[Math.floor(Math.random() * emptyCells.length)];
 }
 
@@ -227,7 +244,6 @@ function playerMove(elem) {
     "use strict";
     if (!endState) {
         var id = elem.id;
-        emptyCells.splice(emptyCells.indexOf(id), 1);
 
         elem.innerHTML = 'X';
         elem.setAttribute('class', 'clicked');

@@ -10,21 +10,6 @@ function makeMove(board, move, currentPlayer) {
 }
 
 /**
- *Returns the indices of the empty elements of an array
- */
-function getEmptyCells(board) {
-    "use strict";
-	var iterator,
-		emptyCells = [];
-	for (iterator = 0; iterator < board.length; iterator += 1) {
-		if (board[iterator] === '' || board[iterator] === ' ') {
-			emptyCells.push(iterator);
-		}
-	}
-	return emptyCells;
-}
-
-/**
  *Returns the value of the cells if all of the values are identical
  *otherwise returns null
  */
@@ -76,7 +61,7 @@ function checkState(board) {
 	}
 
 	//check tie
-	if (getEmptyCells(board).length === 0) {
+	if (window.getEmptyCells(board).length === 0) {
 		return 'tie';
 	}
 }
@@ -102,7 +87,7 @@ function minimaxValue(board, move, currentPlayer, maxdepth, depth) {
     "use strict";
 	var newBoard = makeMove(board, move, currentPlayer),
 		state = checkState(newBoard),
-		emptyCells = getEmptyCells(newBoard),
+		emptyCells = window.getEmptyCells(newBoard),
 		opponent = getOpponent(currentPlayer),
 		moveValues = [],
 		iterator;
@@ -141,7 +126,7 @@ function minimaxValue(board, move, currentPlayer, maxdepth, depth) {
  */
 function minimaxBestMove(board, maxDepth) {
     "use strict";
-	var emptyCells = getEmptyCells(board),
+	var emptyCells = window.getEmptyCells(board),
 		moveValues = [],
         bestMoves = [],
         maximum,
