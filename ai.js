@@ -105,8 +105,9 @@ function minimaxValue(board, move, currentPlayer, maxdepth, depth) {
 		emptyCells = getEmptyCells(newBoard),
 		opponent = getOpponent(currentPlayer),
 		moveValues = [],
-        depth = depth || 0,
 		iterator;
+
+    depth = depth || 0;
 
     if (depth >= maxdepth) {
         return 0;
@@ -114,9 +115,9 @@ function minimaxValue(board, move, currentPlayer, maxdepth, depth) {
 
 	switch (state) {
 	case 'win':
-		return 1 * (10 - depth);
+		return (10 - depth);
 	case 'loss':
-		return -1 * (10 - depth);
+		return -(10 - depth);
 	case 'tie':
 		return 0;
 	}
@@ -143,10 +144,10 @@ function minimaxBestMove(board, maxDepth) {
 	var emptyCells = getEmptyCells(board),
 		moveValues = [],
         bestMoves = [],
-        maxDepth = maxDepth || 9,
         maximum,
 		iterator;
 
+    maxDepth = maxDepth || 9;
 	for (iterator = 0; iterator < emptyCells.length; iterator += 1) {
 		moveValues.push(minimaxValue(board, emptyCells[iterator], 'O', maxDepth));
 	}
