@@ -3,6 +3,10 @@ var emptyCells = ['0', '1', '2', '3', '4', '5', '6', '7', '8'],
     board = document.getElementsByClassName('board')[0],
     computerMoveFunction = normal;
 
+/**
+ *Returns true if all the elements in the array are identical
+ *otherwise returns false
+ */
 Array.prototype.allValuesSame = function () {
     "use strict";
     var i;
@@ -15,6 +19,9 @@ Array.prototype.allValuesSame = function () {
     return true;
 };
 
+/**
+ *Returns the number of occurences of a certain value in the array
+ */
 Array.prototype.count = function (value) {
     var count = 0;
     for(var i = 0; i < this.length; ++i){
@@ -24,6 +31,9 @@ Array.prototype.count = function (value) {
     return count;
 }
 
+/**
+ *Adds empty cells to the table
+ */
 function drawBoard() {
     "use strict";
     var row,
@@ -42,6 +52,9 @@ function drawBoard() {
     }
 }
 
+/**
+ *Shows the end screen with 'endText'.
+ */
 function end(endText) {
     "use strict";
     var endArea;
@@ -58,6 +71,9 @@ function end(endText) {
     endArea.innerHTML += '<a href ="#" class="replayButton" onclick="return clearBoard()">Play Again?</a>';
 }
 
+/**
+ *Clears the board, removes the end screen
+ */
 function clearBoard() {
     "use strict";
     var endArea = document.getElementsByClassName('endgameText')[0];
@@ -71,6 +87,9 @@ function clearBoard() {
     return false;
 }
 
+/**
+ *Checks whether all the array elements are the same
+ */
 function checkSame(array) {
     "use strict";
     if (!endState) {
@@ -81,6 +100,9 @@ function checkSame(array) {
     return false;
 }
 
+/**
+ *Checks if there are not any empty cells
+ */
 function checkTie() {
     "use strict";
     if (!emptyCells.length) {
@@ -89,6 +111,9 @@ function checkTie() {
     return false;
 }
 
+/**
+ *Returns the text content of the elements with the passed id's as an array
+ */
 function getCells(id1, id2, id3) {
     "use strict";
     return [document.getElementById(id1).innerHTML,
@@ -96,6 +121,10 @@ function getCells(id1, id2, id3) {
             document.getElementById(id3).innerHTML];
 }
 
+/**
+ *Checks if any of the players has won
+ *and returns the winner otherwise returns null
+ */
 function checkWin() {
     "use strict";
     var number,
@@ -130,6 +159,9 @@ function checkWin() {
     return null;
 }
 
+/**
+ *Returns the text content of the board table as an array
+ */
 function getBoardCells() {
     "use strict";
     var iterator,
@@ -140,6 +172,10 @@ function getBoardCells() {
     return cells;
 }
 
+/**
+ *Handles computer choice using the current difficulty function,
+ *adds an O and changes the cell's class
+ */
 function computerMove() {
     "use strict";
     if (emptyCells.length && !endState) {
@@ -154,14 +190,23 @@ function computerMove() {
     }
 }
 
+/**
+ *Normal difficulty, uses minimax with a max depth of 3
+ */
 function normal(boardCells) {
     return minimaxBestMove(boardCells, 3);
 }
 
+/**
+ *Returns a random cells's id
+ */
 function randomMove(boardCells) {
     return emptyCells[Math.floor(Math.random() * emptyCells.length)];
 }
 
+/**
+ *Checks for a win or a tie, and displays the end screen if there is
+ */
 function turnPasses() {
     "use strict";
     var winner = checkWin(),
@@ -174,6 +219,10 @@ function turnPasses() {
     }
 }
 
+
+/**
+ *Adds the 'X' and changes the style of clicked cells
+ */
 function playerMove(elem) {
     "use strict";
     if (!endState) {
@@ -189,6 +238,11 @@ function playerMove(elem) {
     }
 }
 
+
+/**
+ *Changes difficulty level when a
+ *button is clicked and changes button classes
+ */
 function toggleDifficulty(button) {
     "use strict";
     document.getElementsByClassName('difficultyButtonToggled')[0].className = 'difficultyButton';

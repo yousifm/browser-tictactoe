@@ -1,3 +1,7 @@
+/**
+ *Changes the value at index 'move' to 'currentPlayer' and returns
+ *a copy of the 'board' array.
+ */
 function makeMove(board, move, currentPlayer) {
     "use strict";
 	var boardCopy = board.slice();
@@ -5,6 +9,9 @@ function makeMove(board, move, currentPlayer) {
 	return boardCopy;
 }
 
+/**
+ *Returns the indices of the empty elements of an array
+ */
 function getEmptyCells(board) {
     "use strict";
 	var iterator,
@@ -17,6 +24,10 @@ function getEmptyCells(board) {
 	return emptyCells;
 }
 
+/**
+ *Returns the value of the cells if all of the values are identical
+ *otherwise returns null
+ */
 function getWinner(cell1, cell2, cell3) {
     "use strict";
 	if (cell1 === cell2 && cell2 === cell3) {
@@ -25,6 +36,9 @@ function getWinner(cell1, cell2, cell3) {
 	return null;
 }
 
+/**
+ *Checks whether the current state is a win, loss or tie
+ */
 function checkState(board) {
     "use strict";
 	var iterator,
@@ -67,6 +81,9 @@ function checkState(board) {
 	}
 }
 
+/**
+ *Returns the opponent of a certain player
+ */
 function getOpponent(player) {
     "use strict";
 	if (player === 'X') {
@@ -76,6 +93,11 @@ function getOpponent(player) {
 	}
 }
 
+/**
+ *Returns the value of a certain move using the minimax algorithm
+ *'maxdepth' indicates the depth at which the function should stop
+ *searching
+ */
 function minimaxValue(board, move, currentPlayer, maxdepth, depth) {
     "use strict";
 	var newBoard = makeMove(board, move, currentPlayer),
@@ -112,6 +134,10 @@ function minimaxValue(board, move, currentPlayer, maxdepth, depth) {
 	}
 }
 
+/**
+ *Returns the best moves based on the score returned by
+ *the minimaxValue function
+ */
 function minimaxBestMove(board, maxDepth) {
     "use strict";
 	var emptyCells = getEmptyCells(board),
