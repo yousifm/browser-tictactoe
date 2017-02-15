@@ -95,7 +95,8 @@ function getOpponent(player) {
  *'maxdepth' indicates the depth at which the function should stop
  *searching
  */
-function minimaxValue(board, move, currentPlayer, maxdepth, depth) {
+function minimaxValue(board, move, currentPlayer,
+                      maxdepth, depth, alpha, beta) {
     "use strict";
     //Copies the board and makes the move
 	var newBoard = makeMove(board, move, currentPlayer),
@@ -106,6 +107,8 @@ function minimaxValue(board, move, currentPlayer, maxdepth, depth) {
 		iterator;
 
     depth = depth || 0;
+    alpha = alpha || -Infinity;
+    beta = beta || Infinity;
 
     /**
      *Stops searching a returns 0 if it hits the max depth
@@ -134,16 +137,33 @@ function minimaxValue(board, move, currentPlayer, maxdepth, depth) {
 	}
 
 
-	for (iterator = 0; iterator < emptyCells.length; iterator += 1) {
-		moveValues.push(minimaxValue(newBoard, emptyCells[iterator], opponent, maxdepth, depth + 1));
-	}
 	//Minimizer
-	if (opponent === 'X') {
-		return Math.min.apply(null, moveValues);
+    if (opponent === 'X') {
+        for (iterator = 0; iterator < emptyCells.length; iterator += 1) {
+            beta = Math.min(beta, minimaxValue(
+                                    newBoard, emptyCells[iterator],
+                                    opponent, maxdepth, depth + 1,
+                                    alpha, beta));
+
+            if (alpha >= beta) {
+                break;
+            }
+        }
+        return beta;
+    }
     //Maximizer
-	} else if (opponent === 'O') {
-		return Math.max.apply(null, moveValues);
-	}
+    else if (opponent === 'O') {
+        for (iterator = 0; iterator < emptyCells.length; iterator += 1) {
+            alpha = Math.max(alpha, minimaxValue(
+                                    newBoard, emptyCells[iterator],
+                                    opponent, maxdepth, depth + 1,
+                                    alpha, beta));
+            if (alpha >= beta) {
+               break;
+            }
+        }
+        return alpha;
+    }
 }
 
 /**
