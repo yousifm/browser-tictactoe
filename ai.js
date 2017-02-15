@@ -41,12 +41,17 @@ function checkState(board) {
      * -------
      */
 	for (iterator = 0; iterator < 3; iterator += 1) {
-		//check rows
+		/**
+         *Each row starts with a multiple of 3 (starting from 0)
+         */
 		winnerRow = getWinner(board[iterator * 3],
                               board[iterator * 3 + 1],
                               board[iterator * 3 + 2]);
 
-		//check column
+		/**
+         *The difference between each element and the next one in
+         *the column is 3
+         */
 		winnerColumn = getWinner(board[iterator],
 								 board[iterator + 3],
 								 board[iterator + 6]);
