@@ -32,7 +32,14 @@ function checkState(board) {
 		winnerDiag1,
 		winnerDiag2;
 
-
+    /**
+     * board:
+     * -------
+     *|0  1  2|
+     *|3  4  5|
+     *|6  7  8|
+     * -------
+     */
 	for (iterator = 0; iterator < 3; iterator += 1) {
 		//check rows
 		winnerRow = getWinner(board[iterator * 3],
@@ -85,6 +92,7 @@ function getOpponent(player) {
  */
 function minimaxValue(board, move, currentPlayer, maxdepth, depth) {
     "use strict";
+    //Copies the board and makes the move
 	var newBoard = makeMove(board, move, currentPlayer),
 		state = checkState(newBoard),
 		emptyCells = window.getEmptyCells(newBoard),
@@ -94,10 +102,21 @@ function minimaxValue(board, move, currentPlayer, maxdepth, depth) {
 
     depth = depth || 0;
 
+    /**
+     *Stops searching a returns 0 if it hits the max depth
+     */
     if (depth >= maxdepth) {
         return 0;
     }
 
+    /**
+     *Returns the value of the move if it results in a win, a loss or a tie,
+     *uses 10 - currentDepth for the score to make ealier wins for O worth more
+     *than later wins and make later losses better than earlier losses.
+     *So that if computer is going to win no matter what move it makes it tries
+     *to end the game earlier and if its going to lose anyways it tries to
+     *prolong the game
+     */
 	switch (state) {
 	case 'win':
 		return (10 - depth);
