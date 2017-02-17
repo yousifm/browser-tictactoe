@@ -1,3 +1,5 @@
+/*global window: false */
+
 /**
  *Returns the value of a certain move using the minimax algorithm
  *'maxdepth' indicates the depth at which the function should stop
@@ -7,11 +9,11 @@ function minimaxValue(board, move, currentPlayer,
                       maxdepth, depth, alpha, beta) {
     "use strict";
     //Copies the board and makes the move
-	var newBoard = makeMove(board, move, currentPlayer),
+	var newBoard = window.makeMove(board, move, currentPlayer),
 
-		state = checkState(newBoard),
+		state = window.checkState(newBoard),
 		emptyCells = window.getEmptyCells(newBoard),
-		opponent = getOpponent(currentPlayer),
+		opponent = window.getOpponent(currentPlayer),
 		moveValues = [],
 		iterator;
 
@@ -51,28 +53,37 @@ function minimaxValue(board, move, currentPlayer,
     if (opponent === 'X') {
         for (iterator = 0; iterator < emptyCells.length; iterator += 1) {
             beta = Math.min(beta, minimaxValue(
-                                    newBoard, emptyCells[iterator],
-                                    opponent, maxdepth, depth + 1,
-                                    alpha, beta));
+                newBoard,
+                emptyCells[iterator],
+                opponent,
+                maxdepth,
+                depth + 1,
+                alpha,
+                beta
+            ));
 
             if (alpha >= beta) {
                 break;
             }
         }
         return beta;
-    }
     //Maximizer
-    else if (opponent === 'O') {
+    } else if (opponent === 'O') {
         for (iterator = 0; iterator < emptyCells.length; iterator += 1) {
-           alpha = Math.max(alpha, minimaxValue(
-                                    newBoard, emptyCells[iterator],
-                                    opponent, maxdepth, depth + 1,
-                                    alpha, beta));
-           if (alpha >= beta) {
-               break;
-           }
-       }
-       return alpha;
+            alpha = Math.max(alpha, minimaxValue(
+                newBoard,
+                emptyCells[iterator],
+                opponent,
+                maxdepth,
+                depth + 1,
+                alpha,
+                beta
+            ));
+            if (alpha >= beta) {
+                break;
+            }
+        }
+        return alpha;
     }
 }
 

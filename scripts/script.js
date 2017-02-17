@@ -1,6 +1,9 @@
+/*global window: false */
+/*jslint browser: true */
+
 var endState = false,
     board = document.getElementsByClassName('board')[0],
-    computerMoveFunction = normal;
+    computerMoveFunction = window.normal;
 
 
 //--------------------------------------------------//
@@ -77,6 +80,34 @@ function makeMove(board, move, currentPlayer) {
 	return boardCopy;
 }
 
+//----------------------------------------------------------//
+//-------------------Helper functions----------------------//
+//--------------------------------------------------------//
+
+/**
+ *Returns the value of the cells if all of the values are identical
+ *otherwise returns null
+ */
+function getWinner(cell1, cell2, cell3) {
+    "use strict";
+	if (cell1 === cell2 && cell2 === cell3) {
+		return cell1;
+	}
+	return null;
+}
+
+/**
+ *Returns the opponent of a certain player
+ */
+function getOpponent(player) {
+    "use strict";
+	if (player === 'X') {
+		return 'O';
+	} else if (player === 'O') {
+		return 'X';
+	}
+}
+
 //--------------------------------------------------//
 //--------------HTML Board altering----------------//
 //------------------------------------------------//
@@ -118,6 +149,7 @@ function clearBoard() {
 }
 
 function drawToken(cell, token) {
+    "use strict";
     cell.innerHTML = token;
     cell.removeAttribute('onclick');
     cell.setAttribute('class', 'clicked');
@@ -285,6 +317,23 @@ function playerMove(elem) {
 //--------------------------------------------------------//
 
 /**
+ *Normal difficulty, uses minimax with a max depth of 3
+ */
+function normal(boardCells) {
+    "use strict";
+    return window.minimaxBestMove(boardCells, 3);
+}
+
+/**
+ *Returns a random cells's id
+ */
+function randomMove(boardCells) {
+    "use strict";
+    var emptyCells = getEmptyCells(getBoardCells());
+    return emptyCells[Math.floor(Math.random() * emptyCells.length)];
+}
+
+/**
  *Changes difficulty level when a
  *button is clicked and changes button classes
  */
@@ -307,51 +356,6 @@ function toggleDifficulty(button) {
         computerMoveFunction = window.minimaxBestMove;
         break;
     }
-}
-
-/**
- *Normal difficulty, uses minimax with a max depth of 3
- */
-function normal(boardCells) {
-    "use strict";
-    return window.minimaxBestMove(boardCells, 3);
-}
-
-/**
- *Returns a random cells's id
- */
-function randomMove(boardCells) {
-    "use strict";
-    var emptyCells = getEmptyCells(getBoardCells());
-    return emptyCells[Math.floor(Math.random() * emptyCells.length)];
-}
-
-//----------------------------------------------------------//
-//-------------------Helper functions----------------------//
-//--------------------------------------------------------//
-
-/**
- *Returns the value of the cells if all of the values are identical
- *otherwise returns null
- */
-function getWinner(cell1, cell2, cell3) {
-    "use strict";
-	if (cell1 === cell2 && cell2 === cell3) {
-		return cell1;
-	}
-	return null;
-}
-
-/**
- *Returns the opponent of a certain player
- */
-function getOpponent(player) {
-    "use strict";
-	if (player === 'X') {
-		return 'O';
-	} else if (player === 'O') {
-		return 'X';
-	}
 }
 
 drawBoard();
