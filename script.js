@@ -243,8 +243,6 @@ function turnPasses() {
 function playerMove(elem) {
     "use strict";
     if (!endState) {
-        var id = elem.id;
-
         elem.innerHTML = 'X';
         elem.setAttribute('class', 'clicked');
         elem.removeAttribute('onclick');
@@ -261,7 +259,10 @@ function playerMove(elem) {
  */
 function toggleDifficulty(button) {
     "use strict";
+    //Resets the currently toggled button
     document.getElementsByClassName('difficultyButtonToggled')[0].className = 'difficultyButton';
+
+    //Toggles the clicked button
     button.className = 'difficultyButtonToggled';
 
     switch (button.innerHTML) {
