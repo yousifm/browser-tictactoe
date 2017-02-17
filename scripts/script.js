@@ -2,6 +2,11 @@ var endState = false,
     board = document.getElementsByClassName('board')[0],
     computerMoveFunction = normal;
 
+
+//--------------------------------------------------//
+//--------------Array Manipulation-----------------//
+//------------------------------------------------//
+
 /**
  *Returns true if all the elements in the array are identical
  *otherwise returns false
@@ -36,17 +41,91 @@ Array.prototype.count = function (value) {
 /**
  *Returns the indices of the empty elements of an array
  */
-function getEmptyCells(board) {
+function getEmptyCells(array) {
     "use strict";
 	var iterator,
 		emptyCells = [];
-	for (iterator = 0; iterator < board.length; iterator += 1) {
-		if (board[iterator] === '' || board[iterator] === ' ') {
+	for (iterator = 0; iterator < array.length; iterator += 1) {
+		if (array[iterator] === '' || array[iterator] === ' ') {
 			emptyCells.push(iterator);
 		}
 	}
 	return emptyCells;
 }
+
+/**
+ *Checks whether all the array elements are the same and are not empty strings
+ */
+function checkSame(array) {
+    "use strict";
+    if (!endState) {
+        if (array[0].length > 0 && array.allValuesSame()) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+ *Changes the value at index 'move' to 'currentPlayer' and returns
+ *a copy of the 'board' array.
+ */
+function makeMove(board, move, currentPlayer) {
+    "use strict";
+	var boardCopy = board.slice();
+	boardCopy[move] = currentPlayer;
+	return boardCopy;
+}
+
+//--------------------------------------------------//
+//--------------HTML Board altering----------------//
+//------------------------------------------------//
+
+/**
+ *Adds empty cells to the table
+ */
+function drawBoard() {
+    "use strict";
+    var row,
+        i,
+        j,
+        cell;
+
+    for (i = 0; i < 3; i += 1) {
+        row = board.insertRow(i);
+        for (j = 0; j < 3; j += 1) {
+            cell = row.insertCell(j);
+            cell.setAttribute('onclick', 'playerMove(this)');
+            cell.setAttribute('class', 'empty');
+            cell.id = (i * 3 + j).toString();
+        }
+    }
+}
+
+/**
+ *Clears the board, removes the end screen
+ */
+function clearBoard() {
+    "use strict";
+    var endArea = document.getElementsByClassName('endgameText')[0];
+
+    endArea.innerHTML = "";
+    board.innerHTML = "";
+    board.setAttribute('style', 'opacity: 1;');
+    endState = false;
+    drawBoard();
+    return false;
+}
+
+function drawToken(cell, token) {
+    cell.innerHTML = token;
+    cell.removeAttribute('onclick');
+    cell.setAttribute('class', 'clicked');
+}
+
+//--------------------------------------------------//
+//--------------HTML Board fetching----------------//
+//------------------------------------------------//
 
 /**
  *Returns the text content of the elements with the passed id's as an array
@@ -71,26 +150,10 @@ function getBoardCells() {
     return cells;
 }
 
-/**
- *Adds empty cells to the table
- */
-function drawBoard() {
-    "use strict";
-    var row,
-        i,
-        j,
-        cell;
 
-    for (i = 0; i < 3; i += 1) {
-        row = board.insertRow(i);
-        for (j = 0; j < 3; j += 1) {
-            cell = row.insertCell(j);
-            cell.setAttribute('onclick', 'playerMove(this)');
-            cell.setAttribute('class', 'empty');
-            cell.id = (i * 3 + j).toString();
-        }
-    }
-}
+//--------------------------------------------------//
+//--------------End Screen Display-----------------//
+//------------------------------------------------//
 
 /**
  *Shows the end screen with 'endText'.
@@ -111,82 +174,84 @@ function end(endText) {
     endArea.innerHTML += '<a href ="#" class="replayButton" onclick="return clearBoard()">Play Again?</a>';
 }
 
+//---------------------------------------------//
+//--------------State Checking----------------//
+//-------------------------------------------//
 /**
- *Clears the board, removes the end screen
+ *Checks whether the current state is a win, loss or tie
  */
-function clearBoard() {
+function checkState(board) {
     "use strict";
-    var endArea = document.getElementsByClassName('endgameText')[0];
+	var iterator,
+		winnerRow,
+		winnerColumn,
+		winnerDiag1,
+		winnerDiag2;
 
-    endArea.innerHTML = "";
-    board.innerHTML = "";
-    board.setAttribute('style', 'opacity: 1;');
-    endState = false;
-    drawBoard();
-    return false;
+    /**
+     * board:
+     * -------
+     *|0  1  2|
+     *|3  4  5|
+     *|6  7  8|
+     * -------
+     */
+	for (iterator = 0; iterator < 3; iterator += 1) {
+		/**
+         *Each row starts with a multiple of 3 (starting from 0)
+         */
+		winnerRow = getWinner(board[iterator * 3],
+                              board[iterator * 3 + 1],
+                              board[iterator * 3 + 2]);
+
+		/**
+         *The difference between each element and the next one in
+         *the column is 3
+         */
+		winnerColumn = getWinner(board[iterator],
+								 board[iterator + 3],
+								 board[iterator + 6]);
+
+		if (winnerRow === 'X' || winnerColumn === 'X') {
+			return 'loss';
+		} else if (winnerRow === 'O' || winnerColumn === 'O') {
+			return 'win';
+		}
+	}
+
+	//check diagonals
+	winnerDiag1 = getWinner(board[0], board[4], board[8]);
+	winnerDiag2 = getWinner(board[2], board[4], board[6]);
+	if (winnerDiag1 === 'X' || winnerDiag2 === 'X') {
+		return 'loss';
+	} else if (winnerDiag1 === 'O' || winnerDiag2 === 'O') {
+		return 'win';
+	}
+
+	//check tie
+	if (window.getEmptyCells(board).length === 0) {
+		return 'tie';
+	}
 }
 
 /**
- *Checks whether all the array elements are the same and are not empty strings
+ *Checks for a win or a tie, and displays the end screen if there is
  */
-function checkSame(array) {
+function turnPasses() {
     "use strict";
-    if (!endState) {
-        if (array[0].length > 0 && array.allValuesSame()) {
-            return true;
-        }
+    var state = checkState(getBoardCells(board));
+    if (state === 'win') {
+        end('O wins!');
+    } else if (state === 'loss') {
+        end('X wins!');
+    } else if (state === 'tie') {
+        end('Tie');
     }
-    return false;
 }
 
-/**
- *Checks if there are not any empty cells
- */
-function checkTie() {
-    "use strict";
-    if (!getEmptyCells(getBoardCells(board)).length) {
-        return true;
-    }
-    return false;
-}
-
-/**
- *Checks if any of the players has won
- *and returns the winner, otherwise returns null
- */
-function checkWin() {
-    "use strict";
-    var number,
-        column,
-        row,
-        diagonal;
-
-    if (endState) {
-        return;
-    }
-
-    //check rows and columns
-    for (number = 0; number < 3; number += 1) {
-        row = getCells(number * 3, number * 3 + 1, number * 3 + 2);
-        column = getCells(number, number + 3, number + 6);
-        if (checkSame(row)) {
-            return row[0];
-        } else if (checkSame(column)) {
-            return column[0];
-        }
-    }
-
-    //check diagonals
-    diagonal = getCells(0, 4, 8);
-    if (checkSame(diagonal)) {
-        return diagonal[0];
-    }
-    diagonal = getCells(2, 4, 6);
-    if (checkSame(diagonal)) {
-        return diagonal[0];
-    }
-    return null;
-}
+//----------------------------------------------------------------//
+//--------------Player and Computer move handling----------------//
+//--------------------------------------------------------------//
 
 /**
  *Handles computer choice using the current difficulty function,
@@ -198,44 +263,9 @@ function computerMove() {
         moveIndex = computerMoveFunction(getBoardCells()),
         cell = document.getElementById(moveIndex);
     if (emptyCells && !endState) {
-        cell.innerHTML = 'O';
-        cell.removeAttribute('onclick');
-        cell.setAttribute('class', 'clicked');
+        drawToken(cell, 'O');
     }
 }
-
-/**
- *Normal difficulty, uses minimax with a max depth of 3
- */
-function normal(boardCells) {
-    "use strict";
-    return window.minimaxBestMove(boardCells, 3);
-}
-
-/**
- *Returns a random cells's id
- */
-function randomMove(boardCells) {
-    "use strict";
-    var emptyCells = getEmptyCells(getBoardCells());
-    return emptyCells[Math.floor(Math.random() * emptyCells.length)];
-}
-
-/**
- *Checks for a win or a tie, and displays the end screen if there is
- */
-function turnPasses() {
-    "use strict";
-    var winner = checkWin(),
-        tie = checkTie();
-
-    if (winner) {
-        end(winner + ' wins!');
-    } else if (tie) {
-        end('Tie');
-    }
-}
-
 
 /**
  *Adds the 'X' and changes the style of clicked cells
@@ -243,15 +273,16 @@ function turnPasses() {
 function playerMove(elem) {
     "use strict";
     if (!endState) {
-        elem.innerHTML = 'X';
-        elem.setAttribute('class', 'clicked');
-        elem.removeAttribute('onclick');
+        drawToken(elem, 'X');
         turnPasses();
         computerMove();
         turnPasses();
     }
 }
 
+//----------------------------------------------------------//
+//--------------Difficulty level management----------------//
+//--------------------------------------------------------//
 
 /**
  *Changes difficulty level when a
@@ -276,6 +307,51 @@ function toggleDifficulty(button) {
         computerMoveFunction = window.minimaxBestMove;
         break;
     }
+}
+
+/**
+ *Normal difficulty, uses minimax with a max depth of 3
+ */
+function normal(boardCells) {
+    "use strict";
+    return window.minimaxBestMove(boardCells, 3);
+}
+
+/**
+ *Returns a random cells's id
+ */
+function randomMove(boardCells) {
+    "use strict";
+    var emptyCells = getEmptyCells(getBoardCells());
+    return emptyCells[Math.floor(Math.random() * emptyCells.length)];
+}
+
+//----------------------------------------------------------//
+//-------------------Helper functions----------------------//
+//--------------------------------------------------------//
+
+/**
+ *Returns the value of the cells if all of the values are identical
+ *otherwise returns null
+ */
+function getWinner(cell1, cell2, cell3) {
+    "use strict";
+	if (cell1 === cell2 && cell2 === cell3) {
+		return cell1;
+	}
+	return null;
+}
+
+/**
+ *Returns the opponent of a certain player
+ */
+function getOpponent(player) {
+    "use strict";
+	if (player === 'X') {
+		return 'O';
+	} else if (player === 'O') {
+		return 'X';
+	}
 }
 
 drawBoard();
