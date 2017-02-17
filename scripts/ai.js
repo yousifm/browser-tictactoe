@@ -100,18 +100,20 @@ function minimaxValue(board, move, currentPlayer,
     "use strict";
     //Copies the board and makes the move
 	var newBoard = makeMove(board, move, currentPlayer),
+
 		state = checkState(newBoard),
 		emptyCells = window.getEmptyCells(newBoard),
 		opponent = getOpponent(currentPlayer),
 		moveValues = [],
 		iterator;
 
+    //Default values
     depth = depth || 0;
     alpha = alpha || -Infinity;
     beta = beta || Infinity;
 
     /**
-     *Stops searching a returns 0 if it hits the max depth
+     *Stops searching and returns 0 if it hits the max depth
      */
     if (depth >= maxdepth) {
         return 0;
@@ -154,15 +156,15 @@ function minimaxValue(board, move, currentPlayer,
     //Maximizer
     else if (opponent === 'O') {
         for (iterator = 0; iterator < emptyCells.length; iterator += 1) {
-            alpha = Math.max(alpha, minimaxValue(
+           alpha = Math.max(alpha, minimaxValue(
                                     newBoard, emptyCells[iterator],
                                     opponent, maxdepth, depth + 1,
                                     alpha, beta));
-            if (alpha >= beta) {
+           if (alpha >= beta) {
                break;
-            }
-        }
-        return alpha;
+           }
+       }
+       return alpha;
     }
 }
 
