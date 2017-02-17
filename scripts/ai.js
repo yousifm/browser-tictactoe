@@ -1,94 +1,4 @@
-/**
- *Changes the value at index 'move' to 'currentPlayer' and returns
- *a copy of the 'board' array.
- */
-function makeMove(board, move, currentPlayer) {
-    "use strict";
-	var boardCopy = board.slice();
-	boardCopy[move] = currentPlayer;
-	return boardCopy;
-}
-
-/**
- *Returns the value of the cells if all of the values are identical
- *otherwise returns null
- */
-function getWinner(cell1, cell2, cell3) {
-    "use strict";
-	if (cell1 === cell2 && cell2 === cell3) {
-		return cell1;
-	}
-	return null;
-}
-
-/**
- *Checks whether the current state is a win, loss or tie
- */
-function checkState(board) {
-    "use strict";
-	var iterator,
-		winnerRow,
-		winnerColumn,
-		winnerDiag1,
-		winnerDiag2;
-
-    /**
-     * board:
-     * -------
-     *|0  1  2|
-     *|3  4  5|
-     *|6  7  8|
-     * -------
-     */
-	for (iterator = 0; iterator < 3; iterator += 1) {
-		/**
-         *Each row starts with a multiple of 3 (starting from 0)
-         */
-		winnerRow = getWinner(board[iterator * 3],
-                              board[iterator * 3 + 1],
-                              board[iterator * 3 + 2]);
-
-		/**
-         *The difference between each element and the next one in
-         *the column is 3
-         */
-		winnerColumn = getWinner(board[iterator],
-								 board[iterator + 3],
-								 board[iterator + 6]);
-
-		if (winnerRow === 'X' || winnerColumn === 'X') {
-			return 'loss';
-		} else if (winnerRow === 'O' || winnerColumn === 'O') {
-			return 'win';
-		}
-	}
-
-	//check diagonals
-	winnerDiag1 = getWinner(board[0], board[4], board[8]);
-	winnerDiag2 = getWinner(board[2], board[4], board[6]);
-	if (winnerDiag1 === 'X' || winnerDiag2 === 'X') {
-		return 'loss';
-	} else if (winnerDiag1 === 'O' || winnerDiag2 === 'O') {
-		return 'win';
-	}
-
-	//check tie
-	if (window.getEmptyCells(board).length === 0) {
-		return 'tie';
-	}
-}
-
-/**
- *Returns the opponent of a certain player
- */
-function getOpponent(player) {
-    "use strict";
-	if (player === 'X') {
-		return 'O';
-	} else if (player === 'O') {
-		return 'X';
-	}
-}
+/*global window: false */
 
 /**
  *Returns the value of a certain move using the minimax algorithm
@@ -99,11 +9,11 @@ function minimaxValue(board, move, currentPlayer,
                       maxdepth, depth, alpha, beta) {
     "use strict";
     //Copies the board and makes the move
-	var newBoard = makeMove(board, move, currentPlayer),
+	var newBoard = window.makeMove(board, move, currentPlayer),
 
-		state = checkState(newBoard),
+		state = window.checkState(newBoard),
 		emptyCells = window.getEmptyCells(newBoard),
-		opponent = getOpponent(currentPlayer),
+		opponent = window.getOpponent(currentPlayer),
 		moveValues = [],
 		iterator;
 
@@ -143,28 +53,37 @@ function minimaxValue(board, move, currentPlayer,
     if (opponent === 'X') {
         for (iterator = 0; iterator < emptyCells.length; iterator += 1) {
             beta = Math.min(beta, minimaxValue(
-                                    newBoard, emptyCells[iterator],
-                                    opponent, maxdepth, depth + 1,
-                                    alpha, beta));
+                newBoard,
+                emptyCells[iterator],
+                opponent,
+                maxdepth,
+                depth + 1,
+                alpha,
+                beta
+            ));
 
             if (alpha >= beta) {
                 break;
             }
         }
         return beta;
-    }
     //Maximizer
-    else if (opponent === 'O') {
+    } else if (opponent === 'O') {
         for (iterator = 0; iterator < emptyCells.length; iterator += 1) {
-           alpha = Math.max(alpha, minimaxValue(
-                                    newBoard, emptyCells[iterator],
-                                    opponent, maxdepth, depth + 1,
-                                    alpha, beta));
-           if (alpha >= beta) {
-               break;
-           }
-       }
-       return alpha;
+            alpha = Math.max(alpha, minimaxValue(
+                newBoard,
+                emptyCells[iterator],
+                opponent,
+                maxdepth,
+                depth + 1,
+                alpha,
+                beta
+            ));
+            if (alpha >= beta) {
+                break;
+            }
+        }
+        return alpha;
     }
 }
 
