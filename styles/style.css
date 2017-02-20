@@ -1,18 +1,3 @@
-/**
- *global variables
- */
-:root {
-    --main-text-color: rgba(255, 255, 255, 0.54);
-    --background-color: #1f1f1f;
-    --board-color: rgba(255, 255, 255, 0.78);
-    --cell-hover-color: rgba(19, 229, 100, 0.88);
-    --replay-button-hover-bgcolor: rgba(2, 83, 2, 0.6);
-    --replay-button-hover-bordercolor: rgba(20, 183, 20, 0.81);
-
-    --difficulty-button-spacing: 1vmin;
-    --board-side-length: 70vmin;
-}
-
 * {
     margin: 0;
     padding: 0;
@@ -21,7 +6,7 @@
 }
 
 html {
-    background-color: var(--background-color);
+    background-color: #1f1f1f;
 }
 
 .empty,
@@ -29,7 +14,7 @@ html {
     border-radius: 1.5vmin;
     width: 33%;
     height: 33%;
-    background-color: var(--board-color);
+    background-color: rgba(255, 255, 255, 0.78);
     font-size: 40px;
     text-align: center;
     font-size: 100%;
@@ -39,7 +24,7 @@ html {
 
 .empty:hover {
     cursor: pointer;
-    background-color: var(--cell-hover-color);
+    background-color: rgba(19, 229, 100, 0.88);
 }
 
 .clicked {
@@ -51,8 +36,8 @@ html {
     margin-top: 12.5vmin;
     margin-left: 50%;
     font-size: 10vmin;
-    height: var(--board-side-length);
-    width: var(--board-side-length);
+    height: 70vmin;
+    width: 70vmin;
     transform: translate(-50%, 0);
 }
 
@@ -88,7 +73,7 @@ html {
     padding-top: 2vmin;
     padding-bottom: 2vmin;
     border-radius: 5px;
-    color: var(--main-text-color);
+    color: rgba(255, 255, 255, 0.54);
     height: 25%;
     width: 100%;
     font-size: 50%;
@@ -96,8 +81,8 @@ html {
 
 .replayButton:hover {
     color: rgba(255, 255, 255, 0.69);
-    background-color: var(--replay-button-hover-bgcolor);
-    border: 1px solid var(--replay-button-hover-bordercolor);
+    background-color: rgba(2, 83, 2, 0.6);
+    border: 1px solid rgba(20, 183, 20, 0.81);
 }
 
 .difficultyButton,
@@ -111,12 +96,12 @@ html {
 }
 
 .difficultyButton {
-    color: var(--main-text-color);
+    color: rgba(255, 255, 255, 0.54);
 }
 
 .difficultyButtonToggled {
-    background-color: var(--main-text-color);
-    color: var(--background-color);
+    background-color: rgba(255, 255, 255, 0.54);
+    color: #1f1f1f;
 }
 
 .diffButtonTable {
@@ -125,11 +110,11 @@ html {
     margin-left: 50%;
     transform: translate(-50%, 0);
     border-collapse: separate;
-    border-spacing: var(--difficulty-button-spacing);
+    border-spacing: 1vmin;
 }
 
 h2 {
-    color: var(--main-text-color);
+    color: rgba(255, 255, 255, 0.54);
     width: 100%;
     position: absolute;
     top: -5vmin;
