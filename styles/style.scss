@@ -34,7 +34,7 @@ html {
 
 .empty:hover {
     cursor: pointer;
-    background-color: var(--cell-hover-color);
+    background-color: $cell-hover-color;
 }
 
 .clicked {

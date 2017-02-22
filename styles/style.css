@@ -21,7 +21,7 @@ html {
 
 .empty:hover {
   cursor: pointer;
-  background-color: var(--cell-hover-color); }
+  background-color: rgba(19, 229, 100, 0.88); }
 
 .clicked {
   color: #3e3e3e; }
