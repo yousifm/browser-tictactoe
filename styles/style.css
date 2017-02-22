@@ -12,7 +12,7 @@ html {
   border-radius: 1.5vmin;
   width: 33%;
   height: 33%;
-  background-color: rgba(255, 255, 255, 0.78);
+  background-color: rgba(255, 255, 255, 0.8);
   font-size: 40px;
   text-align: center;
   font-size: 100%;
@@ -64,7 +64,7 @@ html {
   padding-top: 2vmin;
   padding-bottom: 2vmin;
   border-radius: 5px;
-  color: rgba(255, 255, 255, 0.54);
+  color: rgba(255, 255, 255, 0.5);
   height: 25%;
   width: 100%;
   font-size: 50%; }
@@ -84,10 +84,10 @@ html {
   font-size: 4vmin; }
 
 .difficultyButton {
-  color: rgba(255, 255, 255, 0.54); }
+  color: rgba(255, 255, 255, 0.5); }
 
 .difficultyButtonToggled {
-  background-color: rgba(255, 255, 255, 0.54);
+  background-color: rgba(255, 255, 255, 0.5);
   color: #1f1f1f; }
 
 .diffButtonTable {
@@ -99,7 +99,7 @@ html {
   border-spacing: 1vmin; }
 
 h2 {
-  color: rgba(255, 255, 255, 0.54);
+  color: rgba(255, 255, 255, 0.5);
   width: 100%;
   position: absolute;
   top: -5vmin;
