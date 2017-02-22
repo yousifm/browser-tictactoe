@@ -291,10 +291,9 @@ function turnPasses() {
  */
 function computerMove() {
     "use strict";
-    var emptyCells = getEmptyCells(getBoardCells(board)),
-        moveIndex = computerMoveFunction(getBoardCells()),
+    var moveIndex = computerMoveFunction(getBoardCells()),
         cell = document.getElementById(moveIndex);
-    if (emptyCells && !endState) {
+    if (!endState) {
         drawToken(cell, 'O');
     }
 }
