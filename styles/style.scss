@@ -1,0 +1,134 @@
+$main-text-color: rgba(255, 255, 255, 0.54);
+$background-color: #1f1f1f;
+$board-color: rgba(255, 255, 255, 0.78);
+$cell-hover-color: rgba(19, 229, 100, 0.88);
+$replay-button-hover-bgcolor: rgba(2, 83, 2, 0.6);
+$replay-button-hover-bordercolor: rgba(20, 183, 20, 0.81);
+$difficulty-button-spacing: 1vmin;
+$board-side-length: 70vmin;
+
+
+* {
+    margin: 0;
+    padding: 0;
+    text-rendering: optimizeLegibility;
+    font-family: 'Lato', sans;
+}
+
+html {
+    background-color: $background-color;
+}
+
+.empty,
+.clicked {
+    border-radius: 1.5vmin;
+    width: 33%;
+    height: 33%;
+    background-color: $board-color;
+    font-size: 40px;
+    text-align: center;
+    font-size: 100%;
+    color: transparent;
+    transition: background-color 0.5s, color 0.5s;
+}
+
+.empty:hover {
+    cursor: pointer;
+    background-color: var(--cell-hover-color);
+}
+
+.clicked {
+    color: #3e3e3e;
+}
+
+.container {
+    position: relative;
+    margin-top: 12.5vmin;
+    margin-left: 50%;
+    font-size: 10vmin;
+    height: $board-side-length;
+    width: $board-side-length;
+    transform: translate(-50%, 0);
+}
+
+.board {
+    transition: opacity 0.3s;
+    height: 100%;
+    width: 100%;
+}
+
+.endgameText {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 10;
+    transform: translate(-50%, -50%);
+    width: 50%;
+}
+
+.replayButton,
+.difficultyButton,
+.difficultyButtonToggled {
+    transition: border 0.2s, background-color 0.2s, color 0.2s;
+    text-decoration: none;
+    border: 1px solid grey;
+    line-height: 110%;
+    text-align: center;
+    font-weight: 400;
+}
+
+.replayButton {
+    display: block;
+    margin-top: 7vmin;
+    padding-top: 2vmin;
+    padding-bottom: 2vmin;
+    border-radius: 5px;
+    color: $main-text-color;
+    height: 25%;
+    width: 100%;
+    font-size: 50%;
+}
+
+.replayButton:hover {
+    color: rgba(255, 255, 255, 0.69);
+    background-color: $replay-button-hover-bgcolor;
+    border: 1px solid $replay-button-hover-bordercolor;
+}
+
+.difficultyButton,
+.difficultyButtonToggled {
+    display: inline-block;
+    height: 5vmin;
+    width: 22vmin;
+    padding-top: 2vmin;
+    line-height: 75%;
+    font-size: 4vmin;
+}
+
+.difficultyButton {
+    color: $main-text-color;
+}
+
+.difficultyButtonToggled {
+    background-color: $main-text-color;
+    color: $background-color;
+}
+
+.diffButtonTable {
+    margin-top: 3vmin;
+    width: 70vmin;
+    margin-left: 50%;
+    transform: translate(-50%, 0);
+    border-collapse: separate;
+    border-spacing: $difficulty-button-spacing;
+}
+
+h2 {
+    color: $main-text-color;
+    width: 100%;
+    position: absolute;
+    top: -5vmin;
+    font-size: 90%;
+    font-weight: 300;
+    text-align: center;
+}
