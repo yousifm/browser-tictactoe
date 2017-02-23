@@ -9,15 +9,15 @@ function minimaxValue(board, move, currentPlayer,
                       maxdepth, depth, alpha, beta) {
     "use strict";
     //Copies the board and makes the move
-    makeMove(board, move, currentPlayer);
+    window.makeMove(board, move, currentPlayer);
 
 	var state = window.checkState(board),
 		emptyCells = window.getEmptyCells(board),
 		opponent = window.getOpponent(currentPlayer),
         nextValue,
 		iterator,
-        undoAndReturn = function(returnValue) {
-            undoMove(board, move);
+        undoAndReturn = function (returnValue) {
+            window.undoMove(board, move);
             return returnValue;
         };
 
@@ -45,9 +45,9 @@ function minimaxValue(board, move, currentPlayer,
      */
 	switch (state) {
 	case 'win':
-        return undoAndReturn(10-depth);
+        return undoAndReturn(10 - depth);
 	case 'loss':
-		return undoAndReturn(-(10-depth));
+		return undoAndReturn(-(10 - depth));
 	case 'tie':
         return undoAndReturn(0);
 	}
