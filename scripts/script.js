@@ -194,6 +194,19 @@ function end(endText) {
 //---------------------------------------------//
 //--------------State Checking----------------//
 //-------------------------------------------//
+function winLoss() {
+    "use strict";
+    var i;
+    for (i = 0; i < arguments.length; i += 1) {
+        if (arguments[i] === 'X') {
+            return 'loss';
+        } else if (arguments[i] === 'O') {
+            return 'win';
+        }
+    }
+    return null;
+}
+
 /**
  *Checks whether the current state is a win, loss or tie
  */
@@ -203,7 +216,8 @@ function checkState(board) {
 		winnerRow,
 		winnerColumn,
 		winnerDiag1,
-		winnerDiag2;
+		winnerDiag2,
+        winOrLoss;
 
     /**
      * board:
@@ -229,21 +243,19 @@ function checkState(board) {
 								 board[iterator + 3],
 								 board[iterator + 6]);
 
-		if (winnerRow === 'X' || winnerColumn === 'X') {
-			return 'loss';
-		} else if (winnerRow === 'O' || winnerColumn === 'O') {
-			return 'win';
-		}
+		winOrLoss = winLoss(winnerRow, winnerColumn);
+        if (winOrLoss) {
+            return winOrLoss;
+        }
 	}
 
 	//check diagonals
 	winnerDiag1 = getWinner(board[0], board[4], board[8]);
 	winnerDiag2 = getWinner(board[2], board[4], board[6]);
-	if (winnerDiag1 === 'X' || winnerDiag2 === 'X') {
-		return 'loss';
-	} else if (winnerDiag1 === 'O' || winnerDiag2 === 'O') {
-		return 'win';
-	}
+	winOrLoss = winLoss(winnerDiag1, winnerDiag2);
+    if (winOrLoss) {
+        return winOrLoss;
+    }
 
 	//check tie
 	if (window.getEmptyCells(board).length === 0) {
