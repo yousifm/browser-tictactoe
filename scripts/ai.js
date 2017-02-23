@@ -9,13 +9,17 @@ function minimaxValue(board, move, currentPlayer,
                       maxdepth, depth, alpha, beta) {
     "use strict";
     //Copies the board and makes the move
-	var newBoard = window.makeMove(board, move, currentPlayer),
+    window.makeMove(board, move, currentPlayer);
 
-		state = window.checkState(newBoard),
-		emptyCells = window.getEmptyCells(newBoard),
+	var state = window.checkState(board),
+		emptyCells = window.getEmptyCells(board),
 		opponent = window.getOpponent(currentPlayer),
         nextValue,
-		iterator;
+		iterator,
+        undoAndReturn = function (returnValue) {
+            window.undoMove(board, move);
+            return returnValue;
+        };
 
     //Default values
     depth = depth || 0;
@@ -26,7 +30,7 @@ function minimaxValue(board, move, currentPlayer,
      *Stops searching and returns 0 if it hits the max depth
      */
     if (depth >= maxdepth) {
-        return 0;
+        return undoAndReturn(0);
     }
 
     /**
@@ -41,16 +45,16 @@ function minimaxValue(board, move, currentPlayer,
      */
 	switch (state) {
 	case 'win':
-		return (10 - depth);
+        return undoAndReturn(10 - depth);
 	case 'loss':
-		return -(10 - depth);
+		return undoAndReturn(-(10 - depth));
 	case 'tie':
-		return 0;
+        return undoAndReturn(0);
 	}
 
     for (iterator = 0; iterator < emptyCells.length; iterator += 1) {
         nextValue = minimaxValue(
-            newBoard,
+            board,
             emptyCells[iterator],
             opponent,
             maxdepth,
@@ -74,9 +78,9 @@ function minimaxValue(board, move, currentPlayer,
     }
 
     if (opponent === 'X') {
-        return beta;
+        return undoAndReturn(beta);
     } else if (opponent === 'O') {
-        return alpha;
+        return undoAndReturn(alpha);
     }
 }
 

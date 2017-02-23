@@ -56,14 +56,21 @@ function checkSame(array) {
 
 /**
  *Changes the value at index 'move' to 'currentPlayer' and returns
- *a copy of the 'board' array.
+ *the 'board' array.
  */
 function makeMove(board, move, currentPlayer) {
     "use strict";
-	var boardCopy = board.slice();
-	boardCopy[move] = currentPlayer;
-	return boardCopy;
+	board[move] = currentPlayer;
+	return board;
 }
+
+/**
+ *empties the move index
+ */
+function undoMove(board, move) {
+    board[move] = ' ';
+}
+
 
 //----------------------------------------------------------//
 //-------------------Helper functions----------------------//
