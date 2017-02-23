@@ -14,32 +14,17 @@ var endState = false,
  *Returns true if all the elements in the array are identical
  *otherwise returns false
  */
-Array.prototype.allValuesSame = function () {
+function allValuesSame(array) {
     "use strict";
     var i;
-    for (i = 1; i < this.length; i += 1) {
-        if (this[i] !== this[0]) {
+    for (i = 1; i < array.length; i += 1) {
+        if (array[i] !== array[0]) {
             return false;
         }
     }
 
     return true;
-};
-
-/**
- *Returns the number of occurences of a certain value in the array
- */
-Array.prototype.count = function (value) {
-    "use strict";
-    var count = 0,
-        i;
-    for (i = 0; i < this.length; i += 1) {
-        if (this[i] === value) {
-            count += 1;
-        }
-    }
-    return count;
-};
+}
 
 /**
  *Returns the indices of the empty elements of an array
@@ -62,7 +47,7 @@ function getEmptyCells(array) {
 function checkSame(array) {
     "use strict";
     if (!endState) {
-        if (array[0].length > 0 && array.allValuesSame()) {
+        if (array[0].length > 0 && allValuesSame(array)) {
             return true;
         }
     }
