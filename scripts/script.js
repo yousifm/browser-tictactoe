@@ -14,32 +14,17 @@ var endState = false,
  *Returns true if all the elements in the array are identical
  *otherwise returns false
  */
-Array.prototype.allValuesSame = function () {
+function allValuesSame(array) {
     "use strict";
     var i;
-    for (i = 1; i < this.length; i += 1) {
-        if (this[i] !== this[0]) {
+    for (i = 1; i < array.length; i += 1) {
+        if (array[i] !== array[0]) {
             return false;
         }
     }
 
     return true;
-};
-
-/**
- *Returns the number of occurences of a certain value in the array
- */
-Array.prototype.count = function (value) {
-    "use strict";
-    var count = 0,
-        i;
-    for (i = 0; i < this.length; i += 1) {
-        if (this[i] === value) {
-            count += 1;
-        }
-    }
-    return count;
-};
+}
 
 /**
  *Returns the indices of the empty elements of an array
@@ -62,7 +47,7 @@ function getEmptyCells(array) {
 function checkSame(array) {
     "use strict";
     if (!endState) {
-        if (array[0].length > 0 && array.allValuesSame()) {
+        if (array[0].length > 0 && allValuesSame(array)) {
             return true;
         }
     }
@@ -209,6 +194,19 @@ function end(endText) {
 //---------------------------------------------//
 //--------------State Checking----------------//
 //-------------------------------------------//
+function winLoss() {
+    "use strict";
+    var i;
+    for (i = 0; i < arguments.length; i += 1) {
+        if (arguments[i] === 'X') {
+            return 'loss';
+        } else if (arguments[i] === 'O') {
+            return 'win';
+        }
+    }
+    return null;
+}
+
 /**
  *Checks whether the current state is a win, loss or tie
  */
@@ -218,7 +216,8 @@ function checkState(board) {
 		winnerRow,
 		winnerColumn,
 		winnerDiag1,
-		winnerDiag2;
+		winnerDiag2,
+        winOrLoss;
 
     /**
      * board:
@@ -244,21 +243,19 @@ function checkState(board) {
 								 board[iterator + 3],
 								 board[iterator + 6]);
 
-		if (winnerRow === 'X' || winnerColumn === 'X') {
-			return 'loss';
-		} else if (winnerRow === 'O' || winnerColumn === 'O') {
-			return 'win';
-		}
+		winOrLoss = winLoss(winnerRow, winnerColumn);
+        if (winOrLoss) {
+            return winOrLoss;
+        }
 	}
 
 	//check diagonals
 	winnerDiag1 = getWinner(board[0], board[4], board[8]);
 	winnerDiag2 = getWinner(board[2], board[4], board[6]);
-	if (winnerDiag1 === 'X' || winnerDiag2 === 'X') {
-		return 'loss';
-	} else if (winnerDiag1 === 'O' || winnerDiag2 === 'O') {
-		return 'win';
-	}
+	winOrLoss = winLoss(winnerDiag1, winnerDiag2);
+    if (winOrLoss) {
+        return winOrLoss;
+    }
 
 	//check tie
 	if (window.getEmptyCells(board).length === 0) {
@@ -291,10 +288,9 @@ function turnPasses() {
  */
 function computerMove() {
     "use strict";
-    var emptyCells = getEmptyCells(getBoardCells(board)),
-        moveIndex = computerMoveFunction(getBoardCells()),
+    var moveIndex = computerMoveFunction(getBoardCells()),
         cell = document.getElementById(moveIndex);
-    if (emptyCells && !endState) {
+    if (!endState) {
         drawToken(cell, 'O');
     }
 }

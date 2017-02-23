@@ -14,7 +14,7 @@ function minimaxValue(board, move, currentPlayer,
 		state = window.checkState(newBoard),
 		emptyCells = window.getEmptyCells(newBoard),
 		opponent = window.getOpponent(currentPlayer),
-		moveValues = [],
+        nextValue,
 		iterator;
 
     //Default values
@@ -48,41 +48,34 @@ function minimaxValue(board, move, currentPlayer,
 		return 0;
 	}
 
+    for (iterator = 0; iterator < emptyCells.length; iterator += 1) {
+        nextValue = minimaxValue(
+            newBoard,
+            emptyCells[iterator],
+            opponent,
+            maxdepth,
+            depth + 1,
+            alpha,
+            beta
+        );
 
-	//Minimizer
+        //Minimizer
+        if (opponent === 'X') {
+            beta = Math.min(beta, nextValue);
+
+        //Maximizer
+        } else if (opponent === 'O') {
+            alpha = Math.max(alpha, nextValue);
+        }
+
+        if (alpha >= beta) {
+            break;
+        }
+    }
+
     if (opponent === 'X') {
-        for (iterator = 0; iterator < emptyCells.length; iterator += 1) {
-            beta = Math.min(beta, minimaxValue(
-                newBoard,
-                emptyCells[iterator],
-                opponent,
-                maxdepth,
-                depth + 1,
-                alpha,
-                beta
-            ));
-
-            if (alpha >= beta) {
-                break;
-            }
-        }
         return beta;
-    //Maximizer
     } else if (opponent === 'O') {
-        for (iterator = 0; iterator < emptyCells.length; iterator += 1) {
-            alpha = Math.max(alpha, minimaxValue(
-                newBoard,
-                emptyCells[iterator],
-                opponent,
-                maxdepth,
-                depth + 1,
-                alpha,
-                beta
-            ));
-            if (alpha >= beta) {
-                break;
-            }
-        }
         return alpha;
     }
 }
