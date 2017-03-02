@@ -310,8 +310,10 @@ function playerMove(elem) {
     if (!endState) {
         drawToken(elem, 'X');
         turnPasses();
-        computerMove();
-        turnPasses();
+        setTimeout(function () {
+		computerMove();
+        	turnPasses();
+	}, 200);
     }
 }
 
