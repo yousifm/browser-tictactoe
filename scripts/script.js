@@ -314,7 +314,7 @@ function playerMove(elem) {
         setTimeout(function () {
 		computerMove();
         	turnPasses();
-	}, 200);
+	}, 300);
     }
 }
 
