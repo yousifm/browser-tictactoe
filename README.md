@@ -1,4 +1,5 @@
 # browser-tictactoe
+
 [![Code Climate](https://codeclimate.com/github/yousifm/browser-tictactoe/badges/gpa.svg)](https://codeclimate.com/github/yousifm/browser-tictactoe)
 
 Tictactoe game made with html, css and javascript
